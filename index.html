@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EcoTrack | Smart Waste & Sanitation Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --primary: #134e3f;
+    --primary-strong: #006c49;
+    --ink: #00362a;
+    --text: #131b2e;
+    --body: #404945;
+    --muted: #6b7570;
+    --surface: #faf8ff;
+    --surface-2: #f2f3ff;
+    --surface-3: #e2e7ff;
+    --mint: #6cf8bb;
+    --mint-2: #b5efda;
+    --mint-soft: #6ffbbe;
+    --error: #ba1a1a;
+    --error-soft: #ffdad6;
+    --error-ink: #93000a;
+    --dark: #283044;
+    --outline: #bfc9c3;
+    --white: #ffffff;
+    --shadow-lg: 0 20px 25px -5px rgba(0,0,0,.1), 0 8px 10px -6px rgba(0,0,0,.1);
+    --shadow-md: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.05);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--body);
+    background: var(--surface);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; color: var(--text); }
+  a { color: inherit; text-decoration: none; }
+  button, input, select, textarea { font: inherit; }
+  img { max-width: 100%; display: block; }
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+  .section { padding: 80px 0; position: relative; overflow: hidden; }
+  .bg-white { background: var(--white); }
+  .bg-surface { background: var(--surface); }
+  .bg-dark { background: var(--dark); }
+
+  .eyebrow {
+    font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 1.1px; text-transform: uppercase; color: var(--primary-strong);
+    line-height: 14px;
+  }
+  .eyebrow.center { text-align: center; }
+  .h2 { font-weight: 800; font-size: 36px; line-height: 44px; letter-spacing: -.72px; }
+  .h2.center { text-align: center; }
+  .lead { font-size: 18px; line-height: 28px; color: var(--body); }
+  .lead.center { text-align: center; }
+  .stack { display: flex; flex-direction: column; }
+  .center-col { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; max-width: 768px; margin: 0 auto; }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px; border-radius: 12px; background: var(--surface-3);
+    font-weight: 700; font-size: 11px; letter-spacing: .55px; text-transform: uppercase; color: var(--ink);
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary-strong); display: inline-block; flex-shrink: 0; }
+  .dot.mint { background: var(--mint); }
+  .dot.error { background: var(--error); }
+
+  .ico { display: inline-flex; width: 18px; height: 18px; flex-shrink: 0; }
+  .ico svg { width: 100%; height: 100%; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 14px 24px; border-radius: 4px; border: 0; cursor: pointer;
+    font-weight: 600; font-size: 14px; letter-spacing: .14px; text-decoration: none;
+    transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+  .btn .ico { width: 16px; height: 16px; }
+  .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 10px 15px -3px rgba(19,78,63,.2), 0 4px 6px -4px rgba(19,78,63,.2); }
+  .btn-light { background: var(--white); color: var(--text); box-shadow: 0 1px 1px rgba(0,0,0,.05); }
+  .btn-soft { background: var(--surface-3); color: var(--ink); font-weight: 700; width: 100%; padding: 12px 16px; }
+  .btn-mint { background: var(--mint); color: var(--ink); }
+  .btn-ghost-light { background: rgba(255,255,255,.1); color: #fff; }
+  .btn-block { width: 100%; }
+  .link { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; font-size: 14px; color: var(--ink); cursor: pointer; background: none; border: 0; padding: 0; }
+  .link .ico { width: 11px; height: 11px; }
+  .link:hover { text-decoration: underline; }
+
+  .blur-blob { position: absolute; border-radius: 12px; filter: blur(32px); pointer-events: none; }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 48px 0 112px; background: var(--surface); }
+  .hero .blob-a { background: rgba(108,248,187,.2); width: 550px; height: 550px; right: -40px; top: -128px; }
+  .hero .blob-b { background: rgba(181,239,218,.25); width: 400px; height: 400px; left: -192px; top: 420px; }
+  .motif {
+    position: relative; display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 16px 12px; background: var(--surface-2); border-radius: 4px; margin-bottom: 48px;
+  }
+  .motif-left { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 11px; letter-spacing: 1.1px; text-transform: uppercase; color: var(--primary-strong); }
+  .motif-right { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 11px; letter-spacing: .55px; color: var(--ink); }
+  .motif-right .sep { color: var(--outline); }
+  .hero-grid { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .hero h1 { font-weight: 800; font-size: 48px; line-height: 60px; letter-spacing: -1.2px; margin: 24px 0; }
+  .hero h1 .accent { color: var(--ink); }
+  .hero h1 .accent-line { color: var(--ink); }
+  .hero .lead { margin-bottom: 32px; max-width: 560px; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 16px; }
+  .track-link { display: inline-flex; margin: 16px 0 0 8px; font-weight: 700; font-size: 14px; color: var(--ink); background: none; border: 0; cursor: pointer; }
+  .trust { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 32px; }
+  .trust li { display: flex; align-items: center; gap: 6px; font-weight: 500; font-size: 12px; color: var(--body); letter-spacing: .24px; }
+  .trust .ico { width: 15px; height: 15px; color: var(--primary-strong); }
+
+  /* Map mockup (shared) */
+  .map-card { background: var(--white); border-radius: 8px; padding: 16px; box-shadow: var(--shadow-lg); position: relative; }
+  .map-canvas { position: relative; height: 480px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+  .map-canvas > svg.roads { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .glass { background: rgba(255,255,255,.95); backdrop-filter: blur(6px); border-radius: 4px; box-shadow: var(--shadow-md); position: absolute; }
+  .hud { top: 16px; left: 16px; display: flex; align-items: center; gap: 12px; padding: 6px 12px; background: rgba(255,255,255,.9); }
+  .hud span { font-weight: 700; font-size: 11px; letter-spacing: .66px; text-transform: uppercase; }
+  .marker {
+    position: absolute; width: 24px; height: 24px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff;
+    box-shadow: var(--shadow-md);
+  }
+  .marker::before { content: ""; position: absolute; inset: -6px; border-radius: 14px; background: rgba(186,26,26,.2); z-index: -1; }
+  .marker.red { background: var(--error); }
+  .marker.green { background: var(--ink); width: 28px; height: 28px; }
+  .marker.green::before { background: rgba(0,108,73,.2); }
+  .marker.mint { background: var(--mint); color: var(--ink); width: 24px; height: 24px; }
+  .marker .ico { width: 12px; height: 12px; }
+  .glass-card { padding: 14px; width: 288px; }
+  .complaint-head { display: flex; justify-content: space-between; align-items: center; }
+  .complaint-id { font-weight: 700; font-size: 11px; letter-spacing: .66px; color: var(--body); }
+  .status-chip { background: var(--error-soft); color: var(--error-ink); font-weight: 600; font-size: 12px; padding: 2px 8px; border-radius: 12px; }
+  .status-chip.blue { background: var(--surface-3); color: var(--ink); }
+  .card-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 14px; color: var(--text); margin-top: 6px; }
+  .card-sub { font-size: 12px; line-height: 18px; color: var(--body); margin-top: 2px; }
+  .progress { height: 6px; background: var(--surface-3); border-radius: 12px; overflow: hidden; margin-top: 10px; }
+  .progress > span { display: block; height: 100%; width: 33%; background: var(--primary-strong); }
+  .float-1 { top: 32px; right: 16px; }
+  .float-2 { left: 16px; bottom: 112px; width: 288px; padding: 14px; }
+  .float-3 { right: 24px; bottom: -4px; width: 320px; padding: 14px; display: flex; gap: 10px; align-items: center; }
+  .tag-row { display: flex; align-items: center; justify-content: space-between; }
+  .recyc-row { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: var(--primary-strong); text-transform: uppercase; letter-spacing: .66px; }
+  .recyc-row .ico { width: 14px; height: 14px; }
+  .resolve-badge { width: 32px; height: 32px; border-radius: 12px; background: var(--mint); display: flex; align-items: center; justify-content: center; color: var(--ink); flex-shrink: 0; }
+  .resolve-badge .ico { width: 16px; height: 16px; }
+
+  /* ---------- Stats ---------- */
+  .stats-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 48px; }
+  .stats-head .copy { display: flex; flex-direction: column; gap: 8px; }
+  .stats-head .lead { font-size: 18px; max-width: 640px; }
+  .feed-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--surface-3); padding: 6px 14px; border-radius: 12px; font-weight: 700; font-size: 11px; letter-spacing: .66px; text-transform: uppercase; color: var(--text); white-space: nowrap; }
+  .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .metric { background: var(--surface-2); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 4px; }
+  .metric-top { display: flex; align-items: center; justify-content: space-between; }
+  .metric-label { font-weight: 700; font-size: 11px; letter-spacing: .66px; text-transform: uppercase; color: var(--body); }
+  .metric-top .ico { width: 18px; height: 18px; color: var(--body); }
+  .metric-value { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 48px; line-height: 56px; letter-spacing: -1.2px; color: var(--text); padding-top: 8px; }
+  .metric-value.ink { color: var(--ink); }
+  .metric-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 18px; color: var(--text); }
+  .metric-note { display: flex; align-items: center; gap: 6px; font-weight: 600; font-size: 12px; color: var(--primary-strong); padding-top: 12px; }
+  .metric-note .ico { width: 14px; height: 14px; }
+
+  /* ---------- Problems ---------- */
+  .problem-grid-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .problem-copy { display: flex; flex-direction: column; gap: 24px; }
+  .problem-copy h2 { font-weight: 700; font-size: 48px; line-height: 60px; letter-spacing: -1.44px; }
+  .paradigm { background: var(--surface-3); border-radius: 4px; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .paradigm-head { display: flex; align-items: center; gap: 8px; }
+  .paradigm-head .ico { width: 20px; height: 18px; color: var(--ink); }
+  .paradigm-head h4 { font-weight: 700; font-size: 18px; color: var(--ink); }
+  .paradigm p { font-size: 14px; line-height: 22px; }
+  .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .problem-box { background: var(--white); border-radius: 8px; padding: 20px; box-shadow: 0 1px 1px rgba(0,0,0,.05); display: flex; flex-direction: column; gap: 6px; }
+  .problem-top { display: flex; align-items: center; justify-content: space-between; }
+  .problem-icon { width: 40px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+  .problem-icon .ico { width: 18px; height: 18px; }
+  .problem-icon.error { background: var(--error-soft); color: var(--error-ink); }
+  .problem-icon.neutral { background: var(--surface-3); color: var(--text); }
+  .tag { font-weight: 700; font-size: 11px; letter-spacing: .66px; text-transform: uppercase; padding: 2px 8px; border-radius: 12px; }
+  .tag.error { background: var(--error-soft); color: var(--error-ink); }
+  .tag.neutral { background: var(--surface-3); color: var(--text); }
+  .problem-box h3 { font-weight: 700; font-size: 18px; line-height: 24px; padding-top: 6px; }
+  .problem-box p { font-size: 12px; line-height: 18px; }
+
+  /* ---------- Stakeholders ---------- */
+  .stake-head { margin-bottom: 64px; }
+  .stake-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .stake-card { background: var(--surface); border-radius: 8px; padding: 32px; box-shadow: 0 1px 1px rgba(0,0,0,.05); display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+  .stake-card.alt { background: var(--surface); }
+  .stake-icon { width: 56px; height: 56px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; }
+  .stake-icon .ico { width: 24px; height: 24px; }
+  .stake-label { font-weight: 700; font-size: 11px; letter-spacing: .55px; text-transform: uppercase; margin-top: 24px; }
+  .stake-card h3 { font-weight: 700; font-size: 20px; line-height: 28px; letter-spacing: -.2px; margin-top: 8px; }
+  .stake-card > .stake-body p { font-size: 14px; line-height: 22px; margin-top: 12px; }
+  .stake-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+  .stake-list li { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; line-height: 18px; color: var(--text); }
+  .stake-list .ico { width: 13px; height: 13px; margin-top: 3px; color: var(--primary-strong); }
+  .stake-foot { padding-top: 24px; }
+  .stake-foot .btn { width: 100%; background: var(--surface-3); color: var(--ink); font-weight: 700; padding: 12px 16px; }
+
+  /* ---------- Process ---------- */
+  .process-head { margin-bottom: 48px; }
+  .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; padding-top: 16px; }
+  .step { background: var(--white); border-radius: 8px; padding: 20px; box-shadow: 0 1px 1px rgba(0,0,0,.05); display: flex; flex-direction: column; gap: 8px; }
+  .step-num { width: 32px; height: 32px; border-radius: 12px; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+  .step-num.done { background: var(--primary-strong); }
+  .step h3 { font-weight: 700; font-size: 18px; letter-spacing: -.09px; padding-top: 8px; }
+  .step p { font-size: 12px; line-height: 18px; padding-bottom: 8px; }
+  .step-tag { background: var(--surface-2); padding: 12px 10px 6px; border-radius: 2px; font-weight: 500; font-size: 12px; color: var(--ink); }
+  .step-tag.green { color: var(--primary-strong); font-weight: 500; }
+  .step-tag.text { color: var(--text); }
+  .step-tag.ink { color: var(--ink); }
+  .step-tag.verified { background: var(--surface-3); color: var(--primary-strong); }
+  .ribbon { margin-top: 24px; background: var(--surface-2); border-radius: 8px; padding: 16px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; row-gap: 12px; }
+  .ribbon .st { font-weight: 700; font-size: 11px; letter-spacing: .66px; text-transform: uppercase; color: var(--body); }
+  .ribbon .st.active { color: var(--ink); }
+  .ribbon .st.primary { color: var(--primary-strong); }
+  .ribbon .arrow { color: var(--outline); font-size: 11px; }
+  .ribbon .final { background: var(--mint-soft); color: #00714d; padding: 4px 10px; border-radius: 2px; font-weight: 700; font-size: 11px; letter-spacing: .66px; text-transform: uppercase; }
+
+  /* ---------- Features ---------- */
+  .feat-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 64px; gap: 24px; }
+  .feat-head .copy { display: flex; flex-direction: column; gap: 8px; }
+  .feat-head .h2 { margin-top: 12px; }
+  .feat-head .side { max-width: 448px; font-size: 14px; line-height: 22px; padding-right: 37px; }
+  .feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .feat { background: var(--surface); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; min-height: 254px; gap: 24px; }
+  .feat-icon { width: 48px; height: 48px; border-radius: 4px; background: var(--surface-3); display: flex; align-items: center; justify-content: center; color: var(--text); }
+  .feat-icon .ico { width: 20px; height: 20px; }
+  .feat h3 { font-weight: 700; font-size: 18px; line-height: 24px; letter-spacing: -.09px; margin-top: 16px; }
+  .feat p { font-size: 14px; line-height: 22px; margin-top: 8px; }
+  .feat .link { margin-top: 24px; }
+
+  /* ---------- Waste guide ---------- */
+  .guide-head { margin-bottom: 0; }
+  .search-wrap { width: 576px; max-width: 100%; margin: 24px auto 0; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+  .search { width: 100%; background: var(--white); border-radius: 8px; padding: 8px; display: flex; align-items: center; box-shadow: var(--shadow-md); }
+  .search .ico { width: 18px; height: 18px; margin-left: 12px; color: var(--muted); }
+  .search input { flex: 1; border: 0; outline: 0; padding: 10px 12px; font-size: 14px; background: transparent; color: var(--text); }
+  .search input::placeholder { color: #9ca3af; }
+  .quick { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; }
+  .quick-label { font-weight: 700; font-size: 11px; letter-spacing: .66px; color: var(--body); text-transform: uppercase; }
+  .chip { background: var(--surface-3); color: var(--text); border: 0; border-radius: 12px; padding: 4px 10px; font-weight: 700; font-size: 11px; letter-spacing: .66px; cursor: pointer; }
+  .chip:hover { background: #cfd7f8; }
+  .search-msg { min-height: 20px; font-size: 13px; color: var(--body); text-align: center; }
+  .search-msg strong { color: var(--ink); }
+  .bins { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 40px; }
+  .bin { background: var(--white); border-radius: 8px; overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between; transition: opacity .2s ease, transform .2s ease, box-shadow .2s ease; }
+  .bin.dim { opacity: .4; }
+  .bin.match { box-shadow: 0 0 0 3px var(--mint), var(--shadow-md); transform: translateY(-4px); }
+  .bin-head { padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+  .bin-head .row { display: flex; justify-content: space-between; align-items: center; }
+  .bin-head .k { font-weight: 700; font-size: 11px; letter-spacing: .55px; text-transform: uppercase; color: #fff; }
+  .bin-head h3 { font-weight: 700; font-size: 18px; letter-spacing: -.09px; color: #fff; }
+  .bin-head .ico { width: 16px; height: 16px; color: #fff; }
+  .bin.green .bin-head { background: var(--primary); }
+  .bin.blue .bin-head { background: var(--surface-3); }
+  .bin.blue .bin-head .k, .bin.blue .bin-head h3, .bin.blue .bin-head .ico { color: var(--text); }
+  .bin.teal .bin-head { background: var(--primary-strong); }
+  .bin.red .bin-head { background: var(--error); }
+  .bin-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
+  .bin-body > p { font-size: 12px; line-height: 18px; }
+  .bin ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .bin li { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 12px; line-height: 16px; color: var(--text); }
+  .bin li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--primary-strong); flex-shrink: 0; }
+  .bin.blue li::before { background: var(--ink); }
+  .bin.red li::before { background: var(--error); }
+  .bin.teal li::before { background: var(--primary-strong); }
+  .bin-foot { padding: 7px 20px 23px; font-weight: 700; font-size: 11px; letter-spacing: .66px; text-transform: uppercase; color: var(--ink); cursor: pointer; background: none; border: 0; text-align: left; }
+  .bin-foot.red { color: var(--error); }
+
+  /* ---------- Pickup ---------- */
+  .pickup { padding: 80px 32px; background: var(--white); }
+  .pickup-card { background: var(--surface-3); border-radius: 16px; padding: 48px; box-shadow: var(--shadow-md); display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; position: relative; }
+  .pickup-copy { display: flex; flex-direction: column; gap: 24px; }
+  .pickup-copy h2 { font-weight: 800; font-size: 48px; line-height: 60px; letter-spacing: -1.44px; }
+  .pickup-copy p { font-size: 18px; line-height: 29px; }
+  .pickup-copy .perks { display: flex; flex-wrap: wrap; gap: 16px; }
+  .pickup-copy .perks span { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 12px; color: var(--text); }
+  .pickup-copy .perks .ico { width: 18px; height: 18px; color: var(--primary-strong); }
+  .booking { background: var(--white); border-radius: 8px; padding-bottom: 32px; box-shadow: var(--shadow-lg); overflow: hidden; }
+  .booking-head { background: var(--surface-2); padding: 16px 16px 12px; display: flex; justify-content: space-between; align-items: center; }
+  .booking-head h3 { font-weight: 700; font-size: 18px; letter-spacing: -.09px; }
+  .booking-head .fast { background: var(--mint); color: #00714d; padding: 2px 8px; border-radius: 2px; font-weight: 700; font-size: 11px; letter-spacing: .66px; text-transform: uppercase; }
+  .booking form { padding: 20px 32px 0; display: flex; flex-direction: column; gap: 14px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .field label { font-weight: 700; font-size: 11px; letter-spacing: .66px; text-transform: uppercase; color: var(--body); }
+  .field label .req { color: var(--error); }
+  .field input, .field select, .field textarea {
+    background: var(--surface); border: 1px solid transparent; border-radius: 2px; padding: 10px 12px;
+    font-size: 14px; color: var(--text); outline: none; width: 100%;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--primary-strong); background: #fff; }
+  .field textarea { resize: vertical; min-height: 72px; font-family: inherit; }
+  .field.full { grid-column: 1 / -1; }
+  .field small { font-size: 11px; color: var(--muted); }
+  .booking .submit { margin-top: 8px; width: 100%; background: var(--primary); color: #fff; font-weight: 600; font-size: 14px; padding: 14px; border: 0; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .booking .submit:hover { background: #0f3d31; }
+  .booking .submit:disabled { opacity: .6; cursor: not-allowed; }
+  .booking .submit .ico { width: 16px; height: 16px; }
+
+  /* ---------- Map section ---------- */
+  .map-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; gap: 24px; }
+  .map-head .copy { display: flex; flex-direction: column; gap: 8px; }
+  .map-head .copy .h2 { margin-top: 12px; }
+  .map-head .copy .lead { font-size: 18px; max-width: 672px; }
+  .legend { display: flex; gap: 16px; align-items: center; font-weight: 700; font-size: 11px; letter-spacing: .66px; color: var(--text); white-space: nowrap; }
+  .legend span { display: inline-flex; align-items: center; gap: 4px; }
+  .legend .d { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .geo-map { position: relative; background: var(--surface-2); border-radius: 16px; overflow: hidden; height: 520px; box-shadow: var(--shadow-lg); background: #f2f3ff; background-image: linear-gradient(#dfe5ff 1px, transparent 1px), linear-gradient(90deg, #dfe5ff 1px, transparent 1px); background-size: 60px 60px; }
+  .geo-map svg.roads { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .heat { position: absolute; border-radius: 12px; filter: blur(12px); }
+  .heat.red { background: rgba(186,26,26,.15); left: 24%; top: 33%; width: 144px; height: 144px; }
+  .heat.mint { background: rgba(108,248,187,.3); left: 51%; top: 38%; width: 192px; height: 192px; }
+  .hotspot { position: absolute; left: 28%; top: 38%; width: 24px; height: 24px; }
+  .hotspot .marker { position: static; }
+  .hot-card { position: absolute; left: 24px; top: 24px; width: 384px; background: rgba(255,255,255,.95); backdrop-filter: blur(6px); border-radius: 8px; padding: 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,.25); display: flex; flex-direction: column; gap: 12px; }
+  .hot-head { background: var(--surface-2); padding: 6px 12px 8px; display: flex; justify-content: space-between; align-items: center; border-radius: 4px; }
+  .hot-head .alert { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 11px; letter-spacing: .66px; color: var(--error); text-transform: uppercase; }
+  .hot-head .alert .dot { background: var(--error); width: 8px; height: 8px; }
+  .hot-head .ward { font-weight: 700; font-size: 11px; letter-spacing: .66px; color: var(--body); }
+  .hot-card h4 { font-weight: 600; font-size: 18px; line-height: 24px; letter-spacing: -.09px; }
+  .hot-card p { font-size: 12px; line-height: 18px; }
+  .hot-plan { background: var(--surface-3); border-radius: 4px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .hot-plan .row { display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 12px; color: var(--body); letter-spacing: .24px; }
+  .hot-plan .row b { font-weight: 700; color: var(--ink); }
+  .hot-plan .row b.green { color: var(--primary-strong); }
+  .hot-card .btn { width: 100%; padding: 10px; }
+  .vehicle { position: absolute; right: 32px; bottom: 32px; background: rgba(255,255,255,.95); backdrop-filter: blur(6px); border-radius: 8px; padding: 12px 16px; display: flex; gap: 12px; align-items: center; box-shadow: var(--shadow-md); }
+  .vehicle .veh-ico { width: 40px; height: 40px; border-radius: 4px; background: var(--primary-strong); display: flex; align-items: center; justify-content: center; color: #fff; }
+  .vehicle .veh-ico .ico { width: 18px; height: 18px; }
+  .vehicle b { display: block; font-weight: 700; font-size: 14px; letter-spacing: .14px; color: var(--text); }
+  .vehicle span { font-weight: 500; font-size: 12px; color: var(--primary-strong); }
+
+  /* ---------- Before/After ---------- */
+  .proof-head { margin-bottom: 48px; }
+  .proof-wrap { background: var(--surface-2); border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 32px; box-shadow: var(--shadow-md); }
+  .proof-pair { display: flex; gap: 32px; }
+  .shot { flex: 1; border-radius: 8px; overflow: hidden; position: relative; box-shadow: var(--shadow-md); min-height: 384px; }
+  .shot .photo { position: absolute; inset: 0; }
+  .shot.before .photo { background: linear-gradient(160deg, #7a6b5b 0%, #4b4238 45%, #2a2a2a 100%); }
+  .shot.after .photo { background: linear-gradient(160deg, #9fd3c1 0%, #5f8f7c 45%, #3d5a4e 100%); }
+  .shot .photo::after { content: "Replace with exported site photo"; position: absolute; top: 12px; right: 12px; font-size: 10px; color: rgba(255,255,255,.75); letter-spacing: .4px; }
+  .shot .shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.8) 0%, rgba(0,0,0,0) 55%); }
+  .shot .overlay { position: absolute; left: 24px; right: 24px; bottom: 24px; display: flex; flex-direction: column; gap: 4px; color: #fff; }
+  .shot .flag { position: absolute; top: 24px; left: 24px; padding: 4px 12px; border-radius: 2px; font-weight: 700; font-size: 11px; letter-spacing: .55px; text-transform: uppercase; color: #fff; }
+  .shot.before .flag { background: var(--error); }
+  .shot.after .flag { background: var(--primary-strong); }
+  .shot .meta { display: flex; align-items: center; gap: 8px; font-weight: 500; font-size: 12px; color: rgba(255,255,255,.8); }
+  .shot .meta .ico { width: 14px; height: 14px; }
+  .shot h4 { font-weight: 700; font-size: 18px; line-height: 24px; color: #fff; letter-spacing: -.09px; }
+  .shot .sub { font-size: 12px; line-height: 18px; color: rgba(255,255,255,.9); }
+  .audit-strip { background: var(--surface-2); border-radius: 8px; padding: 24px; display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; background: #f2f3ff; }
+  .audit-people { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .person { display: flex; align-items: center; gap: 12px; }
+  .person .avatar { width: 40px; height: 40px; border-radius: 12px; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; }
+  .person .avatar .ico { width: 18px; height: 18px; }
+  .person .avatar.dark { background: var(--ink); }
+  .person b { display: block; font-weight: 700; font-size: 14px; color: var(--text); letter-spacing: .14px; }
+  .person span { font-size: 12px; line-height: 18px; color: var(--body); }
+  .person span.ok { color: var(--primary-strong); font-weight: 600; }
+  .verified-banner { background: var(--surface-3); border-radius: 4px; padding: 16px 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 18px; color: var(--ink); align-self: start; }
+  .audit-wrap { display: flex; flex-direction: column; gap: 16px; }
+
+  /* ---------- Dashboard ---------- */
+  .dash { background: var(--dark); }
+  .dash-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; gap: 24px; }
+  .dash-head .copy { display: flex; flex-direction: column; gap: 8px; }
+  .dash-head .eyebrow { color: var(--mint-soft); }
+  .dash-head .h2 { color: #eef0ff; margin-top: 12px; }
+  .dash-head .lead { color: #92bbab; font-size: 18px; max-width: 672px; }
+  .dash-head .btn { background: var(--primary-strong); color: #fff; padding: 10px 20px; font-size: 14px; }
+  .dash-panel { background: rgba(255,255,255,.05); backdrop-filter: blur(12px); border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 32px; }
+  .kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  .kpi { background: rgba(255,255,255,.1); border-radius: 8px; padding: 23px 16px 17.5px; display: flex; flex-direction: column; gap: 4.5px; }
+  .kpi .label { font-weight: 700; font-size: 11px; letter-spacing: .66px; text-transform: uppercase; color: rgba(238,240,255,.6); }
+  .kpi .value { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 36px; line-height: 44px; letter-spacing: -.72px; color: #eef0ff; padding-top: 2px; }
+  .kpi .value.mint { color: var(--mint); }
+  .kpi .value small { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 14px; color: rgba(238,240,255,.7); margin-left: 4px; letter-spacing: 0; }
+  .kpi .delta { font-weight: 500; font-size: 12px; line-height: 18px; color: var(--mint-soft); }
+  .kpi .delta.muted { color: rgba(238,240,255,.7); }
+  .split { display: grid; grid-template-columns: 7fr 5fr; gap: 32px; }
+  .stream { background: rgba(255,255,255,.05); border-radius: 8px; padding: 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .stream-head { background: rgba(255,255,255,.1); padding: 16px; display: flex; justify-content: space-between; align-items: center; border-radius: 8px 8px 0 0; margin: 0 -24px; }
+  .stream-head h4 { font-weight: 700; font-size: 18px; color: #eef0ff; letter-spacing: -.09px; }
+  .stream-head .live { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 12px; color: var(--mint-soft); letter-spacing: .4px; text-transform: uppercase; }
+  .stream-head .live .dot { background: var(--mint); }
+  .event { background: rgba(255,255,255,.05); border-radius: 4px; padding: 12px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .event .left { display: flex; align-items: center; gap: 12px; }
+  .event .left .ico { width: 16px; height: 16px; color: #eef0ff; }
+  .event .alert-ico { color: var(--error) !important; }
+  .event b { display: block; font-weight: 500; font-size: 12px; color: #eef0ff; line-height: 18px; }
+  .event span { display: block; font-size: 12px; line-height: 16px; color: rgba(238,240,255,.6); }
+  .event time { font-family: 'Liberation Mono', 'Courier New', monospace; font-size: 12px; color: rgba(238,240,255,.5); white-space: nowrap; }
+  .event time.red { color: var(--error); }
+  .stream-list { display: flex; flex-direction: column; gap: 12px; }
+  .vol { background: rgba(255,255,255,.05); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+  .vol h4 { font-weight: 700; font-size: 18px; color: #eef0ff; letter-spacing: -.09px; }
+  .vol .sub { font-size: 12px; line-height: 16px; color: rgba(238,240,255,.7); margin-top: -12px; }
+  .vol-rows { display: flex; flex-direction: column; gap: 14px; }
+  .vol-row .top { display: flex; justify-content: space-between; font-weight: 700; font-size: 12px; color: #eef0ff; line-height: 16px; }
+  .vol-row .top b { font-weight: 700; }
+  .vol-row .track { height: 8px; background: rgba(255,255,255,.2); border-radius: 12px; overflow: hidden; margin-top: 4px; }
+  .vol-row .track span { display: block; height: 100%; border-radius: 12px; }
+
+  /* ---------- Mobile benefits ---------- */
+  .mobile-wrap { display: grid; grid-template-columns: 5fr 7fr; gap: 48px; align-items: center; }
+  .phone-stage { display: flex; justify-content: center; align-items: center; height: 442px; }
+  .phone { background: var(--dark); width: 320px; border-radius: 40px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 12px; box-shadow: 0 25px 50px -12px rgba(0,0,0,.25); }
+  .phone .notch { background: var(--dark); width: 112px; height: 16px; border-radius: 12px; }
+  .phone .screen { background: #fff; width: 100%; border-radius: 32px; overflow: hidden; padding-bottom: 16px; display: flex; flex-direction: column; gap: 16px; align-items: center; }
+  .phone .app-head { background: var(--surface-2); padding: 16px 16px 8px; width: 100%; display: flex; justify-content: space-between; align-items: center; }
+  .phone .app-head small { display: block; font-weight: 700; font-size: 11px; letter-spacing: .66px; color: var(--body); text-transform: uppercase; }
+  .phone .app-head h5 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 18px; color: var(--text); letter-spacing: -.09px; }
+  .phone .app-head .online { width: 12px; height: 12px; border-radius: 50%; background: var(--primary-strong); }
+  .phone .task { background: rgba(255,218,214,.2); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 6px; width: 256px; }
+  .phone .task.routine { background: var(--surface-3); }
+  .phone .task-top { display: flex; justify-content: space-between; align-items: center; }
+  .phone .pill-red { background: var(--error); color: #fff; padding: 2px 8px; border-radius: 2px; font-weight: 700; font-size: 11px; letter-spacing: .66px; text-transform: uppercase; }
+  .phone .pill-soft { background: var(--surface-3); color: var(--ink); padding: 2px 8px; border-radius: 2px; font-weight: 700; font-size: 11px; letter-spacing: .66px; text-transform: uppercase; }
+  .phone .dist { font-weight: 700; font-size: 12px; color: var(--body); }
+  .phone .task h6 { font-weight: 700; font-size: 14px; color: var(--text); letter-spacing: .14px; }
+  .phone .task p { font-size: 12px; line-height: 16px; color: var(--body); }
+  .phone .btns { display: flex; gap: 8px; padding-top: 8px; }
+  .phone .btns span { flex: 1; text-align: center; padding: 6px 0; border-radius: 2px; font-weight: 700; font-size: 12px; }
+  .phone .btns .n { background: var(--primary); color: #fff; }
+  .phone .btns .u { background: var(--surface); color: var(--text); }
+  .phone .gps { width: 256px; background: var(--surface-2); padding: 10px; border-radius: 4px; text-align: center; font-weight: 700; font-size: 11px; color: var(--primary-strong); letter-spacing: .66px; text-transform: uppercase; }
+  .benefits { display: flex; flex-direction: column; gap: 24px; }
+  .benefits h2 { font-weight: 700; font-size: 48px; line-height: 60px; letter-spacing: -1.44px; }
+  .benefit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding-top: 8px; }
+  .benefit { background: var(--white); border-radius: 8px; padding: 16px; box-shadow: 0 1px 1px rgba(0,0,0,.05); display: flex; flex-direction: column; gap: 4px; }
+  .benefit .ico { width: 20px; height: 20px; color: var(--primary-strong); margin-bottom: 4px; }
+  .benefit h4 { font-weight: 700; font-size: 18px; line-height: 24px; letter-spacing: -.09px; padding-top: 6px; }
+  .benefit p { font-size: 12px; line-height: 18px; }
+
+  /* ---------- AI + alerts ---------- */
+  .ai-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .ai-card { background: var(--surface); border-radius: 16px; padding: 35px 32px 32px; display: flex; flex-direction: column; gap: 24px; box-shadow: var(--shadow-md); }
+  .ai-card h3 { font-weight: 700; font-size: 36px; line-height: 44px; letter-spacing: -.72px; }
+  .ai-card p { font-size: 14px; line-height: 22px; }
+  .classifier { background: #fff; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 16px; box-shadow: inset 0 2px 4px rgba(0,0,0,.05); }
+  .classifier-top { display: flex; gap: 16px; align-items: center; }
+  .thumb { width: 64px; height: 64px; border-radius: 4px; background: radial-gradient(circle at 35% 40%, #f6d28b 0 12%, transparent 13%), radial-gradient(circle at 62% 55%, #8fbf6b 0 16%, transparent 17%), linear-gradient(135deg, #e9e2d0, #cfc3a4); flex-shrink: 0; }
+  .classifier-top .txt { display: flex; flex-direction: column; gap: 3px; }
+  .classifier-top .conf { font-weight: 700; font-size: 11px; letter-spacing: .66px; color: var(--primary-strong); text-transform: uppercase; }
+  .classifier-top h4 { font-weight: 700; font-size: 18px; color: var(--text); letter-spacing: -.09px; }
+  .classifier-top .desc { font-size: 12px; line-height: 16px; color: var(--body); }
+  .rec { background: var(--surface-3); border-radius: 4px; padding: 12px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 12px; color: var(--body); gap: 8px; flex-wrap: wrap; }
+  .rec b { font-weight: 700; color: var(--ink); }
+  .rec .safe { font-weight: 700; color: var(--primary-strong); }
+  .btn-scan { width: 100%; background: var(--primary); color: #fff; padding: 10px; border-radius: 4px; border: 0; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .btn-scan .ico { width: 15px; height: 15px; }
+  .notif-col { display: flex; flex-direction: column; gap: 20px; }
+  .notif-col .eyebrow { margin-top: 0; }
+  .notif-col h3 { font-weight: 800; font-size: 36px; line-height: 44px; letter-spacing: -.72px; }
+  .notif-col > p { font-size: 14px; line-height: 22px; }
+  .notif { background: var(--surface); border-radius: 8px; padding: 16px; display: flex; gap: 16px; align-items: flex-start; box-shadow: 0 1px 1px rgba(0,0,0,.05); }
+  .notif .n-ico { width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #fff; }
+  .notif .n-ico .ico { width: 17px; height: 17px; }
+  .notif .n-body { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+  .notif .n-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .notif .n-kind { font-weight: 700; font-size: 11px; letter-spacing: .66px; text-transform: uppercase; }
+  .notif .n-time { font-size: 12px; color: var(--body); white-space: nowrap; }
+  .notif b { font-weight: 600; font-size: 12px; line-height: 18px; color: var(--text); padding-top: 2px; }
+  .notif p { font-size: 12px; line-height: 18px; color: var(--body); }
+
+  /* ---------- Impact + final CTA ---------- */
+  .impact { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .pillar { background: var(--surface-2); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+  .pillar .p-ico { width: 48px; height: 48px; border-radius: 12px; background: var(--mint); color: var(--ink); display: flex; align-items: center; justify-content: center; }
+  .pillar .p-ico .ico { width: 20px; height: 20px; }
+  .pillar h4 { font-weight: 700; font-size: 18px; line-height: 24px; letter-spacing: -.09px; padding-top: 4px; }
+  .pillar p { font-size: 12px; line-height: 18px; }
+  .final-cta { margin-top: 80px; background: var(--primary); border-radius: 24px; padding: 64px 224px; box-shadow: 0 25px 50px -12px rgba(0,0,0,.25); position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center; }
+  .final-cta .glow-a { position: absolute; background: rgba(0,108,73,.2); width: 384px; height: 384px; border-radius: 12px; filter: blur(32px); right: -80px; bottom: -80px; }
+  .final-cta .glow-b { position: absolute; background: rgba(108,248,187,.1); width: 384px; height: 384px; border-radius: 12px; filter: blur(32px); left: -80px; top: -80px; }
+  .final-cta > * { position: relative; }
+  .final-cta .eyebrow-chip { background: var(--ink); color: var(--mint-soft); padding: 6px 14px; border-radius: 12px; display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 11px; letter-spacing: 1.1px; text-transform: uppercase; }
+  .final-cta h2 { font-weight: 800; font-size: 48px; line-height: 60px; letter-spacing: -1.2px; color: #fff; max-width: 768px; }
+  .final-cta p { font-size: 18px; line-height: 29px; color: #86beab; max-width: 768px; }
+  .final-cta .actions { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; padding-top: 16px; }
+  .final-cta .actions .btn-mint { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 18px; padding: 16px 32px; border-radius: 8px; }
+  .final-cta .actions .btn-ghost { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 18px; padding: 16px 32px; border-radius: 8px; background: rgba(255,255,255,.1); color: #fff; border: 0; cursor: pointer; }
+  .final-cta .fine { font-weight: 700; font-size: 11px; letter-spacing: 1.1px; text-transform: uppercase; color: rgba(134,190,171,.8); padding-top: 16px; }
+  .final-cta .actions .btn-mint .ico { width: 20px; height: 20px; }
+
+  /* ---------- Modal ---------- */
+  .modal { position: fixed; inset: 0; background: rgba(19,27,46,.55); display: flex; align-items: center; justify-content: center; padding: 24px; z-index: 50; }
+  .modal[hidden] { display: none; }
+  .modal-card { background: #fff; border-radius: 12px; width: 100%; max-width: 620px; max-height: 92vh; overflow-y: auto; box-shadow: var(--shadow-lg); }
+  .modal-head { background: var(--surface-2); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 12px 12px 0 0; position: sticky; top: 0; }
+  .modal-head h3 { font-weight: 700; font-size: 18px; letter-spacing: -.09px; }
+  .modal-close { background: none; border: 0; cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 8px; color: var(--body); }
+  .modal-close:hover { background: var(--surface-3); }
+  .modal-close .ico { width: 18px; height: 18px; }
+  .modal form { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .modal .gps-btn { align-self: flex-start; background: var(--surface-3); color: var(--ink); border: 0; border-radius: 4px; padding: 8px 12px; font-weight: 700; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .modal .gps-btn .ico { width: 14px; height: 14px; }
+  .modal .submit-row { display: flex; justify-content: flex-end; gap: 12px; padding-top: 4px; }
+  .modal .cancel { background: var(--surface-2); color: var(--text); border: 0; border-radius: 4px; padding: 12px 18px; font-weight: 600; font-size: 14px; cursor: pointer; }
+  .modal .send { background: var(--primary); color: #fff; border: 0; border-radius: 4px; padding: 12px 20px; font-weight: 600; font-size: 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+  .modal .send .ico { width: 16px; height: 16px; }
+  .modal .send:disabled { opacity: .6; cursor: not-allowed; }
+
+  /* ---------- Toast ---------- */
+  .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); background: var(--text); color: #fff; padding: 12px 18px; border-radius: 8px; font-weight: 600; font-size: 14px; box-shadow: var(--shadow-lg); opacity: 0; pointer-events: none; transition: opacity .25s ease, transform .25s ease; z-index: 60; max-width: calc(100% - 32px); text-align: center; }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  .toast.error { background: var(--error); }
+  .toast.success { background: var(--primary-strong); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1100px) {
+    .container { padding: 0 24px; }
+    .metric-grid { grid-template-columns: repeat(2, 1fr); }
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .bins { grid-template-columns: repeat(2, 1fr); }
+    .kpi-row { grid-template-columns: repeat(3, 1fr); }
+    .final-cta { padding: 56px 48px; }
+  }
+  @media (max-width: 900px) {
+    .hero-grid, .problem-grid-wrap, .pickup-card, .mobile-wrap, .ai-wrap, .split { grid-template-columns: 1fr; }
+    .hero h1, .problem-copy h2, .pickup-copy h2, .benefits h2 { font-size: 36px; line-height: 44px; }
+    .stake-grid, .feat-grid { grid-template-columns: 1fr; }
+    .impact { grid-template-columns: repeat(2, 1fr); }
+    .pickup-card { padding: 28px; }
+    .proof-pair { flex-direction: column; }
+    .geo-map, .map-canvas { height: 420px; }
+    .hot-card { width: auto; right: 16px; }
+    .stats-head, .feat-head, .map-head, .dash-head { flex-direction: column; align-items: flex-start; }
+    .feat-head .side { padding-right: 0; }
+    .final-cta { padding: 48px 24px; }
+    .final-cta h2 { font-size: 36px; line-height: 44px; }
+    .motif { flex-wrap: wrap; gap: 8px; }
+    .audit-strip { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .container { padding: 0 16px; }
+    .section, .pickup { padding: 56px 0; }
+    .pickup { padding: 56px 16px; }
+    .metric-grid, .steps, .bins, .kpi-row, .impact, .benefit-grid, .field-row { grid-template-columns: 1fr; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .float-2, .float-3, .float-1 { width: calc(100% - 32px); left: 16px; right: 16px; }
+    .float-1 { top: 16px; }
+    .float-2 { bottom: 120px; }
+    .float-3 { bottom: 12px; }
+    .pickup-card { padding: 20px; }
+    .booking form { padding: 16px 16px 0; }
+    .dash-panel { padding: 20px; }
+    .stream { padding: 0 16px 16px; }
+    .stream-head { margin: 0 -16px; }
+    .phone { width: 100%; max-width: 320px; }
+    .phone .task, .phone .gps { width: 100%; }
+    .hot-card { position: relative; left: auto; top: auto; margin: 16px; }
+    .vehicle { right: 16px; bottom: 16px; }
+    .motif-right { display: none; }
+    .search-wrap { width: 100%; }
+    .modal-card { border-radius: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     1. HERO
+     ============================================================ -->
+<section class="section hero" id="top">
+  <div class="blur-blob blob-a"></div>
+  <div class="blur-blob blob-b"></div>
+
+  <div class="container">
+    <div class="motif">
+      <div class="motif-left"><span class="dot"></span>National Civic-Tech Infrastructure • Smart Cities Mission</div>
+      <div class="motif-right">
+        <span>SEGREGATE</span><span class="sep">•</span><span>COLLECT</span><span class="sep">•</span><span>VERIFY</span>
+      </div>
+    </div>
+
+    <div class="hero-grid">
+      <div class="stack" style="gap:0">
+        <span class="pill"><span class="dot mint"></span>Smart Waste &amp; Sanitation Management</span>
+        <h1>Transform Waste<br />Reporting into <span class="accent">Real</span><br /><span class="accent">Action.</span></h1>
+        <p class="lead">EcoTrack helps citizens, sanitation teams, and municipal administrators work in unified sync. Report waste issues, request scheduled pickups, track SLA resolution in real time, and ensure municipal accountability with geotagged cryptographic proof.</p>
+        <div class="cta-row">
+          <button class="btn btn-primary" type="button" data-open-report><i class="ico" data-icon="camera"></i>Report an Issue</button>
+          <a class="btn btn-light" href="#pickup"><i class="ico" data-icon="truck"></i>Request Pickup</a>
+        </div>
+        <button class="track-link" type="button" data-track>Track Existing Complaint →</button>
+        <ul class="trust">
+          <li><i class="ico" data-icon="check-circle"></i>Instant Geotagging</li>
+          <li><i class="ico" data-icon="check-circle"></i>Verified Clean Proof</li>
+          <li><i class="ico" data-icon="check-circle"></i>98.4% SLA Compliance</li>
+        </ul>
+      </div>
+
+      <div class="map-card">
+        <div class="map-canvas">
+          <svg class="roads" viewBox="0 0 552 480" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M-10 230 L562 196" stroke="#d6dcff" stroke-width="12" fill="none"/>
+            <path d="M120 0 V480" stroke="#d6dcff" stroke-width="6" fill="none"/>
+            <path d="M320 0 L360 480" stroke="#d6dcff" stroke-width="10" fill="none"/>
+            <path d="M-10 60 L562 90" stroke="#e3e8ff" stroke-width="6" fill="none"/>
+            <path d="M0 150 C 120 130, 220 260, 562 180" stroke="#b5efda" stroke-width="3" stroke-dasharray="8 8" fill="none"/>
+          </svg>
+
+          <div class="glass hud"><span>Sector: Ward 14</span><span class="dot" style="background:var(--primary-strong)"></span><span style="color:var(--primary-strong)">12 Active Crews</span></div>
+
+          <div class="marker red" style="left:96px;top:112px"><i class="ico" data-icon="alert"></i></div>
+          <div class="marker green" style="left:192px;top:308px"><i class="ico" data-icon="truck"></i></div>
+
+          <div class="glass glass-card float-1">
+            <div class="complaint-head">
+              <span class="complaint-id">ET-2048</span>
+              <span class="status-chip">In Progress</span>
+            </div>
+            <div class="card-title">Overflowing Bin Cluster</div>
+            <div class="card-sub">Anna Nagar, Sector 4 • Assigned: Team Alpha</div>
+            <div class="progress"><span></span></div>
+          </div>
+
+          <div class="glass float-2">
+            <div class="complaint-head">
+              <span class="complaint-id" style="color:var(--primary-strong)">RECYCLABLE PICKUP</span>
+              <span class="status-chip blue">Today, 4:30 PM</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
+              <i class="ico" data-icon="recycle" style="color:var(--primary-strong);width:18px;height:18px"></i>
+              <div>
+                <div class="card-title" style="margin-top:0">Scheduled Doorstep</div>
+                <div class="card-sub" style="margin-top:0">Dry Cardboard &amp; PET (8.4 kg)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass float-3">
+            <span class="resolve-badge"><i class="ico" data-icon="check-circle"></i></span>
+            <div style="flex:1;min-width:0">
+              <div class="card-title" style="margin-top:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Resolution Verified: Ward 12</div>
+              <div class="card-sub" style="margin-top:2px">Before → After audit signed by Zonal Insp.</div>
+            </div>
+            <span class="recyc-row" style="color:var(--primary-strong);font-size:11px">CLOSED</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     2. STATS
+     ============================================================ -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="stats-head">
+      <div class="copy">
+        <span class="eyebrow">Public Accountability</span>
+        <h2 class="h2" style="font-size:36px;margin-top:4px">Making Cleanliness Measurable</h2>
+        <p class="lead">A cleaner civic environment starts with radical operational transparency. EcoTrack connects citizens, sanitation field crews, and urban local bodies to ensure every gram of waste is routed responsibly.</p>
+      </div>
+      <span class="feed-pill"><span class="dot"></span>Real-time pilot data feed</span>
+    </div>
+
+    <div class="metric-grid">
+      <div class="metric">
+        <div class="metric-top"><span class="metric-label">Total Dispatches</span><i class="ico" data-icon="inbox"></i></div>
+        <div class="metric-value">12,450+</div>
+        <div class="metric-title">Issues Reported</div>
+        <div class="metric-note"><i class="ico" data-icon="trend"></i>+18.4% civic participation this month</div>
+      </div>
+      <div class="metric">
+        <div class="metric-top"><span class="metric-label">Work Completed</span><i class="ico" data-icon="check-circle"></i></div>
+        <div class="metric-value ink">10,980+</div>
+        <div class="metric-title">Issues Resolved</div>
+        <div class="metric-note" style="color:var(--body);font-weight:500"><i class="ico" data-icon="clock"></i>Avg response under 3.4 hours</div>
+      </div>
+      <div class="metric">
+        <div class="metric-top"><span class="metric-label">Municipal SLA</span><i class="ico" data-icon="shield"></i></div>
+        <div class="metric-value">95.2%</div>
+        <div class="metric-title">Resolution Rate</div>
+        <div class="metric-note"><i class="ico" data-icon="file-check"></i>Verified by administrative photo audits</div>
+      </div>
+      <div class="metric">
+        <div class="metric-top"><span class="metric-label">Material Segregated</span><i class="ico" data-icon="recycle" style="color:var(--primary-strong)"></i></div>
+        <div class="metric-value">8,500+</div>
+        <div class="metric-title">KG Waste Diverted</div>
+        <div class="metric-note"><i class="ico" data-icon="leaf"></i>Redirected to composting &amp; recyclers</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     3. PROBLEMS
+     ============================================================ -->
+<section class="section bg-surface">
+  <div class="container">
+    <div class="problem-grid-wrap">
+      <div class="problem-copy">
+        <span class="pill" style="background:#ffdad6;color:#93000a;align-self:flex-start;border-radius:12px">The Urban Bottleneck</span>
+        <h2>Waste Problems Don't Solve Themselves.</h2>
+        <p class="lead">Overflowing bins, illegal open dumping, delayed garbage trucks, blocked storm-water drains, and unaccountable sanitation workers degrade public health daily. Traditional complaint registers fail due to opacity — citizens never know if their grievance reached the field, and administrators cannot verify if the clean-up actually happened.</p>
+        <div class="paradigm">
+          <div class="paradigm-head"><i class="ico" data-icon="layers"></i><h4>The EcoTrack Digital Paradigm</h4></div>
+          <p>We replace chaotic WhatsApp messages and paper registers with an end-to-end digital lifecycle: Instant geotagged capture → Route-optimized crew dispatch → Cryptographic proof verification.</p>
+        </div>
+      </div>
+
+      <div class="problem-grid">
+        <div class="problem-box">
+          <div class="problem-top">
+            <div class="problem-icon error"><i class="ico" data-icon="inbox"></i></div>
+            <span class="tag error">Chronic</span>
+          </div>
+          <h3>Overflowing Bins</h3>
+          <p>Uncollected curbside receptacles overflow into walkways, creating severe pathogen risks and street contamination.</p>
+        </div>
+        <div class="problem-box">
+          <div class="problem-top">
+            <div class="problem-icon neutral"><i class="ico" data-icon="pin"></i></div>
+            <span class="tag neutral">Flooding</span>
+          </div>
+          <h3>Blocked Storm Drains</h3>
+          <p>Plastic debris clogs monsoon culverts, leading to urban flash floods and stagnation of contaminated sewage.</p>
+        </div>
+        <div class="problem-box">
+          <div class="problem-top">
+            <div class="problem-icon neutral"><i class="ico" data-icon="truck"></i></div>
+            <span class="tag neutral">Inordinate</span>
+          </div>
+          <h3>Delayed Pickup Routes</h3>
+          <p>Irregular sanitation truck visits force residents to abandon waste on vacant plots without recourse.</p>
+        </div>
+        <div class="problem-box">
+          <div class="problem-top">
+            <div class="problem-icon neutral"><i class="ico" data-icon="eye-off"></i></div>
+            <span class="tag neutral">Zero Proof</span>
+          </div>
+          <h3>Fake Complaint Closures</h3>
+          <p>Municipal tickets marked 'resolved' on paper while the waste pile remains untouched on ground zero.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. STAKEHOLDERS
+     ============================================================ -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="center-col stake-head">
+      <span class="eyebrow center">Unified Stakeholder System</span>
+      <h2 class="h2 center" style="margin-top:4px">One Platform. Complete Waste<br />Management.</h2>
+      <p class="lead center" style="max-width:672px">EcoTrack harmonizes citizens, ground sanitation workers, and city council administrators into a singular verified feedback loop. Every action is measurable, visible, and accountable.</p>
+    </div>
+
+    <div class="stake-grid">
+      <div class="stake-card" style="background:#faf8ff">
+        <div>
+          <div class="stake-icon" style="background:var(--primary)"><i class="ico" data-icon="users"></i></div>
+          <div class="stake-label" style="color:var(--ink)">Stakeholder: Citizens</div>
+          <h3>Report Problems. Track Progress. Make an Impact.</h3>
+          <p class="stake-body" style="font-size:14px;line-height:22px;margin-top:12px">Empowering residents to transform their neighborhood from passive spectators into active stewards of urban hygiene.</p>
+          <ul class="stake-list">
+            <li><i class="ico" data-icon="check"></i>10-second photo upload with automated GPS coordinate lock</li>
+            <li><i class="ico" data-icon="check"></i>Real-time WhatsApp &amp; In-app status push alerts</li>
+            <li><i class="ico" data-icon="check"></i>Book doorstep bulk &amp; recyclable pick-up appointments</li>
+          </ul>
+        </div>
+        <div class="stake-foot"><button class="btn" type="button" data-open-report>Report an Issue <i class="ico" data-icon="arrow" style="width:12px;height:12px"></i></button></div>
+      </div>
+
+      <div class="stake-card" style="background:#faf8ff">
+        <div>
+          <div class="stake-icon" style="background:var(--primary-strong)"><i class="ico" data-icon="users"></i></div>
+          <div class="stake-label" style="color:var(--primary-strong)">Stakeholder: Field Crew</div>
+          <h3>Know What Needs to Be Done and Where.</h3>
+          <p style="font-size:14px;line-height:22px;margin-top:12px">Arming municipal field workers with optimized turn-by-turn routes and instant digital task resolution workflows.</p>
+          <ul class="stake-list">
+            <li><i class="ico" data-icon="check"></i>Dynamic ward route mapping based on severity priority</li>
+            <li><i class="ico" data-icon="check"></i>One-tap geo-fenced attendance and vehicle load logging</li>
+            <li><i class="ico" data-icon="check"></i>Mandatory Before/After photo capture with tamper detection</li>
+          </ul>
+        </div>
+        <div class="stake-foot"><a class="btn" href="#" data-soon="Staff portal is not connected yet.">Staff Portal Access <i class="ico" data-icon="external" style="width:15px;height:15px"></i></a></div>
+      </div>
+
+      <div class="stake-card" style="background:#faf8ff">
+        <div>
+          <div class="stake-icon" style="background:var(--ink)"><i class="ico" data-icon="shield-check"></i></div>
+          <div class="stake-label" style="color:var(--ink)">Stakeholder: City Command</div>
+          <h3>See the Full Municipal Picture in Real Time.</h3>
+          <p style="font-size:14px;line-height:22px;margin-top:12px">Providing ward commissioners and zonal officers with predictive analytics and audit control over contractors.</p>
+          <ul class="stake-list">
+            <li><i class="ico" data-icon="check"></i>SLA violation timers with auto-escalation to commissioners</li>
+            <li><i class="ico" data-icon="check"></i>Geospatial heatmaps pinpointing illegal dumping hotspots</li>
+            <li><i class="ico" data-icon="check"></i>Granular staff performance ratings and contractor billing audits</li>
+          </ul>
+        </div>
+        <div class="stake-foot"><a class="btn" href="#" data-soon="Admin console is not connected yet.">Admin Operations Center <i class="ico" data-icon="gauge" style="width:15px;height:15px"></i></a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     5. PROCESS
+     ============================================================ -->
+<section class="section bg-surface">
+  <div class="container">
+    <div class="center-col process-head">
+      <span class="eyebrow center">End-to-End Civic Lifecycle</span>
+      <h2 class="h2 center" style="margin-top:4px">Simple Process. Real Results.</h2>
+      <p class="lead center">From the initial citizen snap to verified road clearance, every transaction is cryptographically logged on the public ledger.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Report</h3>
+        <p>Citizen snaps waste photo. GPS auto-fills address; AI tags category (Wet, Dry, Hazard).</p>
+        <div class="step-tag ink">Ticket Generated</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Assign</h3>
+        <p>Platform engine routes complaint to the active sanitation truck closest to the ward.</p>
+        <div class="step-tag green">SLA Timer: 4 Hours</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Action</h3>
+        <p>Sanitation crew reaches location, cleans the site, sanitizes the curb, and bags debris.</p>
+        <div class="step-tag text">Field Clearance</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Verify</h3>
+        <p>Crew uploads geotagged after-photo. AI compares visual changes; Ward Officer approves.</p>
+        <div class="step-tag ink">Audit Check Pass</div>
+      </div>
+      <div class="step">
+        <div class="step-num done">5</div>
+        <h3>Resolved</h3>
+        <p>Citizen receives Before vs. After proof via SMS/App with option to rate cleanliness.</p>
+        <div class="step-tag verified">Verified Closed ✓</div>
+      </div>
+    </div>
+
+    <div class="ribbon">
+      <span class="st">Submitted</span><span class="arrow">→</span>
+      <span class="st">Triaged</span><span class="arrow">→</span>
+      <span class="st active">Assigned</span><span class="arrow">→</span>
+      <span class="st primary">In Progress</span><span class="arrow">→</span>
+      <span class="st active">Audit Check</span><span class="arrow">→</span>
+      <span class="final">Verified Closed</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     6. FEATURES
+     ============================================================ -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="feat-head">
+      <div class="copy">
+        <span class="eyebrow">Enterprise Platform Capabilities</span>
+        <h2 class="h2">Everything Needed for Smarter Waste<br />Management</h2>
+      </div>
+      <p class="side">Architected for high concurrency during monsoons and public events, compliant with national municipal directives.</p>
+    </div>
+
+    <div class="feat-grid">
+      <div class="feat">
+        <div>
+          <div class="feat-icon"><i class="ico" data-icon="camera"></i></div>
+          <h3>Waste Issue Reporting</h3>
+          <p>Citizen-first camera interface with automatic GPS location binding, landmark tagging, and category auto-recommendations.</p>
+        </div>
+        <button class="link" type="button" data-open-report>Report an Issue <i class="ico" data-icon="arrow"></i></button>
+      </div>
+      <div class="feat">
+        <div>
+          <div class="feat-icon"><i class="ico" data-icon="navigation"></i></div>
+          <h3>Live Complaint Tracking</h3>
+          <p>Track the exact progress of your complaint in real time with assigned crew metadata, ETA countdown, and route status.</p>
+        </div>
+        <button class="link" type="button" data-track>Track Complaint <i class="ico" data-icon="arrow"></i></button>
+      </div>
+      <div class="feat">
+        <div>
+          <div class="feat-icon"><i class="ico" data-icon="calendar"></i></div>
+          <h3>Waste Pickup Requests</h3>
+          <p>Schedule convenient doorstep pick-ups for bulk furniture, electronic waste, and large batches of dry recyclables.</p>
+        </div>
+        <a class="link" href="#pickup">Request Pickup <i class="ico" data-icon="arrow"></i></a>
+      </div>
+      <div class="feat">
+        <div>
+          <div class="feat-icon"><i class="ico" data-icon="book"></i></div>
+          <h3>Smart Waste Segregation Guide</h3>
+          <p>Instant interactive lookup of everyday packaging materials with color-coded guidelines matching national municipal standards.</p>
+        </div>
+        <a class="link" href="#waste">Explore Waste Guide <i class="ico" data-icon="arrow"></i></a>
+      </div>
+      <div class="feat">
+        <div>
+          <div class="feat-icon"><i class="ico" data-icon="target"></i></div>
+          <h3>Hotspot Detection &amp; GIS Analytics</h3>
+          <p>Automated spatial clustering highlights recurring dumping zones, allowing authorities to install static bins and CCTV coverage.</p>
+        </div>
+        <a class="link" href="#map">View Hotspots <i class="ico" data-icon="arrow"></i></a>
+      </div>
+      <div class="feat">
+        <div>
+          <div class="feat-icon"><i class="ico" data-icon="shield-check"></i></div>
+          <h3>Verified Proof-of-Work</h3>
+          <p>Geofenced Before-and-After photo audits ensure that zero fraudulent closures happen. Workers must be within 20m of the site.</p>
+        </div>
+        <a class="link" href="#proof">See Verification Proof <i class="ico" data-icon="arrow"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     7. WASTE GUIDE
+     ============================================================ -->
+<section class="section bg-surface" id="waste">
+  <div class="container">
+    <div class="center-col guide-head">
+      <span class="eyebrow center">Public Education Portal</span>
+      <h2 class="h2 center" style="margin-top:4px">Know Where Your Waste Belongs.</h2>
+      <p class="lead center">Effective recycling starts at the kitchen table. Use the EcoTrack directory to understand bin color coding and proper disposal guidelines.</p>
+    </div>
+
+    <div class="search-wrap">
+      <div class="search">
+        <i class="ico" data-icon="search"></i>
+        <input id="waste-search" type="text" placeholder="What are you throwing away? (e.g., Eggshells, Cardboard, Battery)..." aria-label="Search waste item" />
+      </div>
+      <div class="quick">
+        <span class="quick-label">Quick test:</span>
+        <button class="chip" type="button" data-quick="Banana Peel">Banana Peel</button>
+        <button class="chip" type="button" data-quick="Plastic Bottle">Plastic Bottle</button>
+        <button class="chip" type="button" data-quick="Lithium Battery">Lithium Battery</button>
+        <button class="chip" type="button" data-quick="Newspaper">Newspaper</button>
+      </div>
+      <div class="search-msg" id="waste-msg" aria-live="polite"></div>
+    </div>
+
+    <div class="bins" id="bins">
+      <div class="bin green" data-bin="wet">
+        <div>
+          <div class="bin-head">
+            <div class="row"><span class="k">Green Bin</span><i class="ico" data-icon="leaf"></i></div>
+            <h3>Wet Waste</h3>
+          </div>
+          <div class="bin-body">
+            <p>Biodegradable organic matter suitable for municipal biomethanation and composting facilities.</p>
+            <ul>
+              <li>Fruit &amp; vegetable peels</li>
+              <li>Leftover food &amp; cooked rice</li>
+              <li>Tea bags &amp; coffee grounds</li>
+              <li>Garden leaves &amp; small twigs</li>
+            </ul>
+          </div>
+        </div>
+        <button class="bin-foot" type="button">Learn about wet waste →</button>
+      </div>
+
+      <div class="bin blue" data-bin="dry">
+        <div>
+          <div class="bin-head">
+            <div class="row"><span class="k">Blue Bin</span><i class="ico" data-icon="inbox"></i></div>
+            <h3>Dry Waste</h3>
+          </div>
+          <div class="bin-body">
+            <p>Non-biodegradable, non-recyclable or mixed municipal solid packaging items free from food residue.</p>
+            <ul>
+              <li>Clean snack packaging wraps</li>
+              <li>Styrofoam food trays</li>
+              <li>Used paper napkins &amp; tissues</li>
+              <li>Plastic stationery &amp; pens</li>
+            </ul>
+          </div>
+        </div>
+        <button class="bin-foot" type="button">Learn about dry waste →</button>
+      </div>
+
+      <div class="bin teal" data-bin="recyclable">
+        <div>
+          <div class="bin-head">
+            <div class="row"><span class="k">Teal Bin</span><i class="ico" data-icon="recycle"></i></div>
+            <h3>Recyclable Waste</h3>
+          </div>
+          <div class="bin-body">
+            <p>Commercial-grade raw recyclable commodities routed to registered formal material recovery plants.</p>
+            <ul>
+              <li>PET water &amp; soda bottles</li>
+              <li>Corrugated cardboard boxes</li>
+              <li>Aluminum soda &amp; tin cans</li>
+              <li>Glass beverage jars &amp; bottles</li>
+            </ul>
+          </div>
+        </div>
+        <button class="bin-foot" type="button">Learn about recycling →</button>
+      </div>
+
+      <div class="bin red" data-bin="special">
+        <div>
+          <div class="bin-head">
+            <div class="row"><span class="k">Red / Amber Bin</span><i class="ico" data-icon="alert"></i></div>
+            <h3>Special-Care Waste</h3>
+          </div>
+          <div class="bin-body">
+            <p>Toxic, electronic, biomedical, or flammable materials requiring dedicated certified incineration handling.</p>
+            <ul>
+              <li>Lithium &amp; alkaline batteries</li>
+              <li>Broken CFL bulbs &amp; mercury tubes</li>
+              <li>Expired medications &amp; syringes</li>
+              <li>Discarded e-waste smartphones</li>
+            </ul>
+          </div>
+        </div>
+        <button class="bin-foot red" type="button">Learn about special waste →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     8. PICKUP BOOKING
+     ============================================================ -->
+<section class="pickup" id="pickup">
+  <div class="container" style="padding:0">
+    <div class="pickup-card">
+      <div class="pickup-copy">
+        <span class="eyebrow">Doorstep Municipal Service</span>
+        <h2>Need Bulk or Recyclable<br />Waste Collected?</h2>
+        <p>Don't leave corrugated cartons or discarded appliances on the sidewalk. Schedule a certified EcoTrack civic collection van. Choose your time slot, get verified weight tickets, and earn green civic credits.</p>
+        <div class="perks">
+          <span><i class="ico" data-icon="check-circle"></i>No fee for sorted recyclables</span>
+          <span><i class="ico" data-icon="check-circle"></i>Electric collection fleet</span>
+        </div>
+      </div>
+
+      <div class="booking">
+        <div class="booking-head">
+          <h3>Pickup Scheduler</h3>
+          <span class="fast">Fast Track</span>
+        </div>
+        <form id="pickup-form" novalidate>
+          <div class="field full">
+            <label for="pf-waste">Waste Stream Type</label>
+            <select id="pf-waste" name="wasteType">
+              <option>Sorted Recyclable Waste (Paper, PET, Cans)</option>
+              <option>Corrugated Cardboard &amp; Cartons</option>
+              <option>Bulk Furniture</option>
+              <option>Discarded Appliances (E-Waste)</option>
+              <option>Dry Mixed Solid Waste</option>
+            </select>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="pf-load">Estimated Load</label>
+              <select id="pf-load" name="estimatedWaste">
+                <option>Small (~5 to 10 kg)</option>
+                <option>Medium (~10 to 50 kg)</option>
+                <option>Large (50 kg+)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="pf-ward">Ward / Sector <span class="req">*</span></label>
+              <input id="pf-ward" name="location" type="text" placeholder="e.g. Ward 14 - North Block" />
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="pf-date">Date <span class="req">*</span></label>
+              <input id="pf-date" name="preferredPickupDate" type="date" />
+            </div>
+            <div class="field">
+              <label for="pf-time">Time Slot</label>
+              <select id="pf-time" name="preferredPickupTime">
+                <option>09:00 AM – 10:00 AM</option>
+                <option>12:00 PM – 01:00 PM</option>
+                <option selected>04:00 PM – 05:00 PM</option>
+                <option>06:00 PM – 07:00 PM</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="pf-name">Full Name <span class="req">*</span></label>
+              <input id="pf-name" name="name" type="text" autocomplete="name" />
+            </div>
+            <div class="field">
+              <label for="pf-phone">Phone <span class="req">*</span></label>
+              <input id="pf-phone" name="phone" type="tel" autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="field full">
+            <label for="pf-notes">Notes (optional)</label>
+            <textarea id="pf-notes" name="description" placeholder="Anything the crew should know, such as access instructions"></textarea>
+          </div>
+
+          <button class="submit" type="submit"><i class="ico" data-icon="truck"></i>Confirm Pickup Request</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     9. GEOSPATIAL MAP
+     ============================================================ -->
+<section class="section bg-surface" id="map">
+  <div class="container">
+    <div class="map-head">
+      <div class="copy">
+        <span class="eyebrow">Geospatial Telemetry</span>
+        <h2 class="h2">See Where Problems Keep Happening.</h2>
+        <p class="lead">Recurring dumping isn't an accident — it's an infrastructural deficit. EcoTrack spatial algorithms synthesize incident history to alert sanitation commissioners about unserved streets.</p>
+      </div>
+      <div class="legend">
+        <span><i class="d" style="background:var(--error)"></i>Critical Hotspot</span>
+        <span><i class="d" style="background:var(--primary-strong)"></i>Cleared Route</span>
+      </div>
+    </div>
+
+    <div class="geo-map">
+      <svg class="roads" viewBox="0 0 1216 520" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 110 L1216 118" stroke="#c9d3ff" stroke-width="10" fill="none"/>
+        <path d="M0 340 L1216 300" stroke="#c9d3ff" stroke-width="8" fill="none"/>
+        <path d="M400 0 L420 520" stroke="#c9d3ff" stroke-width="8" fill="none"/>
+        <path d="M800 0 L790 520" stroke="#c9d3ff" stroke-width="8" fill="none"/>
+        <path d="M120 105 L130 380" stroke="#dfe5ff" stroke-width="5" fill="none"/>
+        <path d="M600 115 L600 360" stroke="#dfe5ff" stroke-width="5" fill="none"/>
+        <path d="M980 120 L1020 345" stroke="#dfe5ff" stroke-width="6" fill="none"/>
+      </svg>
+      <div class="heat red"></div>
+      <div class="heat mint"></div>
+      <div class="hotspot"><div class="marker red" style="position:static"><span style="font-weight:700;font-size:12px">!</span></div></div>
+
+      <div class="hot-card">
+        <div class="hot-head">
+          <span class="alert"><span class="dot"></span>Critical hotspot detected</span>
+          <span class="ward">WARD 14</span>
+        </div>
+        <h4>Market Road Commercial Junction</h4>
+        <p>10 complaints logged within the last 14 days. Primary cause: Night-time vegetable vendor unloading.</p>
+        <div class="hot-plan">
+          <div class="row"><span>Recommended Intervention:</span><b>Deploy 2× 1100L Bins</b></div>
+          <div class="row"><span>Scheduled Sanitation Sweep:</span><b class="green">Every Night @ 11:30 PM</b></div>
+        </div>
+        <button class="btn btn-primary" type="button" data-soon="Dispatch is not connected yet.">Dispatch Intervention Fleet <i class="ico" data-icon="arrow" style="width:12px;height:12px"></i></button>
+      </div>
+
+      <div class="vehicle">
+        <div class="veh-ico"><i class="ico" data-icon="truck"></i></div>
+        <div>
+          <b>Crew Vehicle #TN-09-8812</b>
+          <span>On Route • 4 stops pending</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     10. BEFORE / AFTER PROOF
+     ============================================================ -->
+<section class="section bg-white" id="proof">
+  <div class="container">
+    <div class="center-col proof-head">
+      <span class="eyebrow center">Zero-Fraud Protocol</span>
+      <h2 class="h2 center" style="margin-top:4px">Proof That Work Gets Done.</h2>
+      <p class="lead center">Municipal complaints cannot be marked resolved on an arbitrary click. Sanitation crew members must capture cryptographic, timestamped before-and-after photographs verified by zonal officers.</p>
+    </div>
+
+    <div class="proof-wrap">
+      <div class="proof-pair">
+        <div class="shot before">
+          <div class="photo"></div>
+          <div class="shade"></div>
+          <span class="flag">Before Cleaning</span>
+          <div class="overlay">
+            <span class="meta"><i class="ico" data-icon="clock"></i>12 Oct, 10:24 AM (Citizen Photo)</span>
+            <h4>Overflowing Waste Dump • Ward 12 Main Bazaar</h4>
+            <span class="sub">GPS: 13.0827° N, 80.2707° E • Status: Verified Incident</span>
+          </div>
+        </div>
+        <div class="shot after">
+          <div class="photo"></div>
+          <div class="shade"></div>
+          <span class="flag">After Resolution</span>
+          <div class="overlay">
+            <span class="meta"><i class="ico" data-icon="check-circle"></i>12 Oct, 02:48 PM (Crew Geotag Upload)</span>
+            <h4>Area Cleared, Washed &amp; Disinfected</h4>
+            <span class="sub">Cryptographic Hash: 0x8a99...4b12 • Zonal Audit PASS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="audit-strip">
+        <div class="audit-people">
+          <div class="person">
+            <div class="avatar"><i class="ico" data-icon="users"></i></div>
+            <div>
+              <b>Sanitation Lead: Arun Kumar (#SK-402)</b>
+              <span>Zone 4 Sanitation Operations Division</span>
+            </div>
+          </div>
+          <div class="person">
+            <div class="avatar dark"><i class="ico" data-icon="pen"></i></div>
+            <div>
+              <b>Audited by: Dr. V. Sundaram (Zonal Officer)</b>
+              <span class="ok">Digital Signature Validated</span>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+      <div class="verified-banner">COMPLAINT #ET-2048: VERIFIED CLOSED</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     11. EXECUTIVE DASHBOARD
+     ============================================================ -->
+<section class="section dash">
+  <div class="container">
+    <div class="dash-head">
+      <div class="copy">
+        <span class="eyebrow">Executive Urban Intelligence</span>
+        <h2 class="h2">Complete Visibility. Better Decisions.</h2>
+        <p class="lead">Empower city commissioners and sanitation directors with an integrated telemetry dashboard tracking fleet utilization, ward performance, and real-time SLA burn-down rates.</p>
+      </div>
+      <a class="btn" href="#" data-soon="Admin console is not connected yet.">Explore Admin Console <i class="ico" data-icon="external" style="width:14px;height:14px"></i></a>
+    </div>
+
+    <div class="dash-panel">
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="label">Open Complaints</div>
+          <div class="value">1,420</div>
+          <div class="delta">+3% vs last week</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Active In-Field</div>
+          <div class="value mint">84</div>
+          <div class="delta muted">18 Trucks en route</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Resolved Today</div>
+          <div class="value">132</div>
+          <div class="delta">96% within target SLA</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Avg Resolution</div>
+          <div class="value">3.4<small>hrs</small></div>
+          <div class="delta">42 mins faster than baseline</div>
+        </div>
+        <div class="kpi">
+          <div class="label">SLA Compliance</div>
+          <div class="value mint">98.2%</div>
+          <div class="delta muted">ISO 14001 Audited</div>
+        </div>
+      </div>
+
+      <div class="split">
+        <div class="stream">
+          <div class="stream-head">
+            <h4>Live Municipal Stream</h4>
+            <span class="live"><span class="dot"></span>Polling every 500ms</span>
+          </div>
+          <div class="stream-list">
+            <div class="event">
+              <div class="left"><i class="ico" data-icon="file-check"></i><div><b>Complaint #ET-2051 Assigned to Crew Gamma</b><span>Ward 9 • Sector 2 Central Market</span></div></div>
+              <time>1 min ago</time>
+            </div>
+            <div class="event">
+              <div class="left"><i class="ico" data-icon="check-circle"></i><div><b>Pickup #PK-1032 Completed &amp; Weighed (14.2 kg)</b><span>Doorstep Recyclable Service • Van #04</span></div></div>
+              <time>4 mins ago</time>
+            </div>
+            <div class="event">
+              <div class="left"><i class="ico alert-ico" data-icon="alert"></i><div><b>SLA Alert: Incident #ET-2032 nearing 3-hour limit</b><span>Escalated to Zonal Supervisor Rajan</span></div></div>
+              <time class="red">12 mins ago</time>
+            </div>
+          </div>
+        </div>
+
+        <div class="vol">
+          <div>
+            <h4>Municipal Volume Breakdown</h4>
+            <p class="sub" style="margin-top:4px">Aggregate composition across 42 city wards today</p>
+          </div>
+          <div class="vol-rows">
+            <div class="vol-row">
+              <div class="top"><span>Wet / Organic Waste</span><b style="color:var(--mint-soft)">44% (3,740 KG)</b></div>
+              <div class="track"><span style="width:44%;background:var(--mint)"></span></div>
+            </div>
+            <div class="vol-row">
+              <div class="top"><span>Dry Mixed Solid Waste</span><b style="color:var(--mint-2)">32% (2,720 KG)</b></div>
+              <div class="track"><span style="width:32%;background:var(--mint-2)"></span></div>
+            </div>
+            <div class="vol-row">
+              <div class="top"><span>Recyclable Commodities</span><b style="color:var(--mint-soft)">18% (1,530 KG)</b></div>
+              <div class="track"><span style="width:18%;background:var(--mint-soft)"></span></div>
+            </div>
+            <div class="vol-row">
+              <div class="top"><span>Hazardous / Special Care</span><b style="color:var(--error)">6% (510 KG)</b></div>
+              <div class="track"><span style="width:6%;background:var(--error)"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     12. FIELD CREW / MOBILE
+     ============================================================ -->
+<section class="section bg-surface">
+  <div class="container">
+    <div class="mobile-wrap">
+      <div class="phone-stage">
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="app-head">
+              <div>
+                <small>SanitDispatch v2.4</small>
+                <h5>Team Alpha (3 Tasks)</h5>
+              </div>
+              <span class="online"></span>
+            </div>
+
+            <div class="task">
+              <div class="task-top"><span class="pill-red">High Priority</span><span class="dist">450m away</span></div>
+              <h6>Overflowing Market Bin</h6>
+              <p>Ward 14 • 1st Cross Crossroad</p>
+              <div class="btns"><span class="n">Navigate</span><span class="u">Upload After</span></div>
+            </div>
+
+            <div class="task routine">
+              <div class="task-top"><span class="pill-soft">Routine</span><span class="dist">1.2 km away</span></div>
+              <h6>Drain Debris Clearance</h6>
+              <p>Ward 14 • Lakeview Road</p>
+            </div>
+
+            <div class="gps">Shift GPS Tracking: Active</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="benefits">
+        <span class="eyebrow">Ground Crew Modernization</span>
+        <h2>Empowering Field Sanitation<br />Staff.</h2>
+        <p class="lead" style="font-size:18px;line-height:29px">Sanitation workers are the backbone of sustainable cities. EcoTrack replaces cumbersome paper checklists with an ergonomic multilingual mobile interface that respects their effort and highlights their civic achievements.</p>
+        <div class="benefit-grid">
+          <div class="benefit">
+            <i class="ico" data-icon="navigation"></i>
+            <h4>Smart Turn Navigation</h4>
+            <p>Optimal sequence routing avoids narrow congested alleys and reduces truck diesel burn by 22%.</p>
+          </div>
+          <div class="benefit">
+            <i class="ico" data-icon="gauge"></i>
+            <h4>Zero-Paperwork Close</h4>
+            <p>Field crews click a verified photograph and instantly close the task without manual log writing.</p>
+          </div>
+          <div class="benefit">
+            <i class="ico" data-icon="zap"></i>
+            <h4>Offline-Ready Sync</h4>
+            <p>Functions in low-connectivity underground drainage corridors and syncs as soon as 4G restores.</p>
+          </div>
+          <div class="benefit">
+            <i class="ico" data-icon="award"></i>
+            <h4>Citizen Recognition</h4>
+            <p>Field workers earn municipal badges and civic recognition stars directly from grateful residents.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     13. AI CLASSIFIER + ALERTS
+     ============================================================ -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="ai-wrap">
+      <div class="ai-card">
+        <span class="chip" style="background:var(--mint);color:#00714d;align-self:flex-start;font-size:11px;padding:4px 12px;border-radius:12px;letter-spacing:.55px;text-transform:uppercase;font-weight:700">AI Computer Vision</span>
+        <h3>Identify Waste Before You<br />Dispose It.</h3>
+        <p>Unsure if a foil-lined coffee cup or bubble wrap can be recycled? Point your smartphone camera at any item. Our computer vision classifier tells you the exact municipal bin in 0.4 seconds.</p>
+        <div class="classifier">
+          <div class="classifier-top">
+            <div class="thumb" aria-hidden="true"></div>
+            <div class="txt">
+              <span class="conf">Confidence: 96.8%</span>
+              <h4>Organic / Wet Food Waste</h4>
+              <span class="desc">Vegetable scraps &amp; citrus peel detected</span>
+            </div>
+          </div>
+          <div class="rec">
+            <span>Recommended Bin: <b>GREEN (Wet Waste)</b></span>
+            <span class="safe">Safe for Composting</span>
+          </div>
+          <button class="btn-scan" type="button" data-soon="Live camera scanning is not connected yet."><i class="ico" data-icon="scan"></i>Launch Live Camera Scanner</button>
+        </div>
+      </div>
+
+      <div class="notif-col">
+        <span class="eyebrow">Multi-Channel Alerts</span>
+        <h3>Everyone Stays in the Loop.</h3>
+        <p>Zero ambiguity. Instant updates routed directly to Citizens, Sanitation Crews, and City Commissioners.</p>
+
+        <div class="notif">
+          <div class="n-ico" style="background:var(--primary)"><i class="ico" data-icon="inbox"></i></div>
+          <div class="n-body">
+            <div class="n-top"><span class="n-kind" style="color:var(--ink)">Citizen Update</span><span class="n-time">Just now</span></div>
+            <b>Complaint #ET-2048 verified and assigned</b>
+            <p>Truck #14 is 4 blocks away. Estimated arrival: 18 minutes.</p>
+          </div>
+        </div>
+        <div class="notif">
+          <div class="n-ico" style="background:var(--primary-strong)"><i class="ico" data-icon="bell"></i></div>
+          <div class="n-body">
+            <div class="n-top"><span class="n-kind" style="color:var(--primary-strong)">Sanitation Crew Dispatch</span><span class="n-time">8 mins ago</span></div>
+            <b>Urgent clearance assigned near Green Park</b>
+            <p>High citizen visibility zone. Priority SLA: 2 hours.</p>
+          </div>
+        </div>
+        <div class="notif">
+          <div class="n-ico" style="background:var(--error)"><i class="ico" data-icon="power"></i></div>
+          <div class="n-body">
+            <div class="n-top"><span class="n-kind" style="color:var(--error)">Commissioner Escrow</span><span class="n-time">14 mins ago</span></div>
+            <b>Repeated dumping cluster detected in Ward 12</b>
+            <p>Automated camera enforcement recommended by AI analytics.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     14. IMPACT PILLARS + FINAL CTA
+     ============================================================ -->
+<section class="section bg-surface">
+  <div class="container">
+    <div class="impact">
+      <div class="pillar">
+        <div class="p-ico"><i class="ico" data-icon="sparkles"></i></div>
+        <h4>Cleaner Streets</h4>
+        <p>Zero tolerance for overflowing curbside litter in municipal residential zones.</p>
+      </div>
+      <div class="pillar">
+        <div class="p-ico"><i class="ico" data-icon="droplet"></i></div>
+        <h4>Unclogged Drains</h4>
+        <p>Proactive storm-water drain clearing before monsoon flash flood occurrences.</p>
+      </div>
+      <div class="pillar">
+        <div class="p-ico"><i class="ico" data-icon="gauge"></i></div>
+        <h4>Rapid Response</h4>
+        <p>Slashing municipal response cycles from 4 days to an audited 3.4 hours.</p>
+      </div>
+      <div class="pillar">
+        <div class="p-ico"><i class="ico" data-icon="bars"></i></div>
+        <h4>Audited Budgets</h4>
+        <p>Preventing contractor invoice fraud with cryptographic photographic proof.</p>
+      </div>
+    </div>
+
+    <div class="final-cta">
+      <div class="glow-a"></div>
+      <div class="glow-b"></div>
+      <span class="eyebrow-chip"><span class="dot mint"></span>Segregate • Collect • Verify</span>
+      <h2>Let's Build Cleaner Communities Together.</h2>
+      <p>Every geotagged report matters. Every verified collection counts. Join thousands of citizens and municipal personnel powering the next generation of smart urban sanitation.</p>
+      <div class="actions">
+        <button class="btn-mint btn" type="button" data-open-report><i class="ico" data-icon="camera"></i>Report an Issue Now</button>
+        <a class="btn-ghost" href="#pickup">Request Doorstep Pickup</a>
+      </div>
+      <div class="fine">Zero registration fee • Open civic platform • Certified ISO 14001</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     REPORT AN ISSUE MODAL
+     ============================================================ -->
+<div class="modal" id="report-modal" hidden role="dialog" aria-modal="true" aria-labelledby="report-title">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3 id="report-title">Report an Issue</h3>
+      <button class="modal-close" type="button" data-close aria-label="Close"><i class="ico" data-icon="x"></i></button>
+    </div>
+    <form id="report-form" novalidate>
+      <div class="field-row">
+        <div class="field">
+          <label for="rf-name">Full Name <span class="req">*</span></label>
+          <input id="rf-name" name="name" type="text" autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="rf-phone">Phone <span class="req">*</span></label>
+          <input id="rf-phone" name="phone" type="tel" autocomplete="tel" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="rf-email">Email (optional)</label>
+        <input id="rf-email" name="email" type="email" autocomplete="email" />
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="rf-category">Problem Category <span class="req">*</span></label>
+          <select id="rf-category" name="category">
+            <option value="">Select a category</option>
+            <option>Overflowing Bins</option>
+            <option>Illegal Dumping</option>
+            <option>Blocked Drain</option>
+            <option>Delayed Pickup</option>
+            <option>Sanitation Issue</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="rf-subcategory">Sub Category</label>
+          <input id="rf-subcategory" name="subCategory" type="text" placeholder="e.g. Market waste, Public toilet" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="rf-description">Description <span class="req">*</span></label>
+        <textarea id="rf-description" name="description" placeholder="Describe what you see and how long it has been there"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="rf-location">Location <span class="req">*</span></label>
+        <input id="rf-location" name="location" type="text" placeholder="Street, area, or landmark" />
+        <small>Or use your current GPS position below.</small>
+      </div>
+
+      <button class="gps-btn" type="button" id="use-gps"><i class="ico" data-icon="pin"></i>Use my current location</button>
+      <input type="hidden" name="latitude" id="rf-latitude" />
+      <input type="hidden" name="longitude" id="rf-longitude" />
+
+      <div class="field-row">
+        <div class="field">
+          <label for="rf-landmark">Landmark (optional)</label>
+          <input id="rf-landmark" name="landmark" type="text" />
+        </div>
+        <div class="field">
+          <label for="rf-severity">Severity</label>
+          <select id="rf-severity" name="severity">
+            <option>Low</option>
+            <option selected>Medium</option>
+            <option>High</option>
+            <option>Critical</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="rf-photoUrl">Photo link (optional)</label>
+        <input id="rf-photoUrl" name="photoUrl" type="url" placeholder="https://" />
+      </div>
+
+      <div class="submit-row">
+        <button class="cancel" type="button" data-close>Cancel</button>
+        <button class="send" type="submit" id="report-submit"><i class="ico" data-icon="send"></i>Submit Report</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  /* ----------------------------------------------------------
+     EcoTrack backend endpoint (Google Apps Script web app)
+     ---------------------------------------------------------- */
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-ezjHHPMqENQ6ZUEv92U3AgqaBL1G01YIkt5FLisB_QuPPbjSf314WUFRfgcSjNlV/exec';
+
+  /* ----------------------------------------------------------
+     Icons (stroke-based, 24x24)
+     ---------------------------------------------------------- */
+  const ICONS = {
+    camera: '<path d="M14.5 4h-5L8 6H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-4z"/><circle cx="12" cy="13" r="3"/>',
+    truck: '<path d="M1 4h14v12H1z"/><path d="M15 9h4l3 3v4h-7z"/><circle cx="5.5" cy="18" r="2"/><circle cx="18.5" cy="18" r="2"/>',
+    check: '<path d="M20 6 9 17l-5-5"/>',
+    'check-circle': '<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+    shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+    'shield-check': '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
+    arrow: '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    external: '<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
+    pin: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
+    recycle: '<path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 4v5h-5"/>',
+    alert: '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',
+    calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+    clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+    inbox: '<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.7 1.1z"/>',
+    search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>',
+    layers: '<path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/>',
+    navigation: '<path d="m3 11 19-9-9 19-2-8-8-2z"/>',
+    zap: '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+    award: '<circle cx="12" cy="8" r="7"/><path d="M8.2 14.5 7 22l5-3 5 3-1.2-7.5"/>',
+    gauge: '<path d="M3.3 17a9 9 0 1 1 17.4 0"/><path d="m12 14 4-4"/>',
+    bell: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>',
+    scan: '<path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/>',
+    trend: '<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',
+    'file-check': '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/>',
+    leaf: '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10Z"/><path d="M2 21c0-3 1.9-5.4 5.1-6C9.5 14.5 12 13 13 12"/>',
+    book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/>',
+    target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    'eye-off': '<path d="M17.9 17.9A10.9 10.9 0 0 1 12 19c-7 0-11-7-11-7a19.8 19.8 0 0 1 5.1-5.9M9.9 4.2A10.9 10.9 0 0 1 12 4c7 0 11 8 11 8a19.8 19.8 0 0 1-2.2 3.2"/><path d="M1 1l22 22"/>',
+    pen: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+    sparkles: '<path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/>',
+    droplet: '<path d="M12 2.7S5 10 5 15a7 7 0 0 0 14 0c0-5-7-12.3-7-12.3z"/>',
+    bars: '<path d="M3 3v18h18"/><path d="M8 17V11M13 17V7M18 17v-4"/>',
+    power: '<path d="M18.4 6.6a9 9 0 1 1-12.8 0"/><path d="M12 2v10"/>',
+    send: '<path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/>',
+    x: '<path d="M18 6 6 18M6 6l12 12"/>'
+  };
+
+  function hydrateIcons(root) {
+    (root || document).querySelectorAll('[data-icon]').forEach(function (el) {
+      var body = ICONS[el.dataset.icon];
+      if (!body) return;
+      el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + body + '</svg>';
+    });
+  }
+
+  /* ----------------------------------------------------------
+     Toast + modal helpers
+     ---------------------------------------------------------- */
+  var toastTimer;
+  function toast(message, type) {
+    var el = document.getElementById('toast');
+    el.textContent = message;
+    el.className = 'toast show ' + (type || '');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.classList.remove('show'); }, 4000);
+  }
+
+  var reportModal = document.getElementById('report-modal');
+  function openReport() {
+    reportModal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    setTimeout(function () { document.getElementById('rf-name').focus(); }, 50);
+  }
+  function closeReport() {
+    reportModal.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-open-report]')) { e.preventDefault(); openReport(); return; }
+    if (e.target.closest('[data-close]') || e.target === reportModal) { closeReport(); return; }
+    var soon = e.target.closest('[data-soon]');
+    if (soon) { e.preventDefault(); toast(soon.dataset.soon, 'error'); return; }
+    if (e.target.closest('[data-track]')) { toast('Complaint tracking is not connected to the backend yet.', 'error'); return; }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !reportModal.hidden) closeReport();
+  });
+
+  /* ----------------------------------------------------------
+     Backend submission (GET, matching Code.gs parameter names)
+     Apps Script can't return CORS headers, so the request is sent
+     with mode 'no-cors' and the response can't be read in the page.
+     ---------------------------------------------------------- */
+  function clean(value) {
+    return (value === undefined || value === null) ? '' : String(value).trim();
+  }
+
+  function sendComplaint(fields) {
+    var params = new URLSearchParams();
+    Object.keys(fields).forEach(function (key) {
+      var v = clean(fields[key]);
+      if (v) params.append(key, v);
+    });
+    return fetch(SCRIPT_URL + '?' + params.toString(), { method: 'GET', mode: 'no-cors' });
+  }
+
+  function requireCitizenFields(data) {
+    var missing = [];
+    if (!clean(data.name)) missing.push('name');
+    if (!clean(data.phone)) missing.push('phone');
+    if (!clean(data.category)) missing.push('category');
+    if (!clean(data.description)) missing.push('description');
+    if (!clean(data.location) && !(clean(data.latitude) && clean(data.longitude))) missing.push('location');
+    return missing;
+  }
+
+  var FIELD_LABELS = {
+    name: 'Full name', phone: 'Phone number', category: 'Problem category',
+    description: 'Description', location: 'Location or GPS coordinates'
+  };
+
+  function setBusy(button, busy, idleHTML) {
+    button.disabled = busy;
+    button.innerHTML = busy ? 'Sending…' : idleHTML;
+    if (!busy) hydrateIcons(button);
+  }
+
+  /* ----------------------------------------------------------
+     Report an Issue
+     ---------------------------------------------------------- */
+  var reportForm = document.getElementById('report-form');
+  var reportSubmit = document.getElementById('report-submit');
+  var reportSubmitHTML = reportSubmit.innerHTML;
+
+  document.getElementById('use-gps').addEventListener('click', function () {
+    if (!navigator.geolocation) { toast('Location is not available on this device.', 'error'); return; }
+    toast('Getting your location…');
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      document.getElementById('rf-latitude').value = pos.coords.latitude.toFixed(6);
+      document.getElementById('rf-longitude').value = pos.coords.longitude.toFixed(6);
+      var loc = document.getElementById('rf-location');
+      if (!loc.value.trim()) loc.value = 'GPS ' + pos.coords.latitude.toFixed(6) + ', ' + pos.coords.longitude.toFixed(6);
+      toast('Location captured.', 'success');
+    }, function () {
+      toast('Could not read your location. Please type it instead.', 'error');
+    }, { enableHighAccuracy: true, timeout: 10000 });
+  });
+
+  reportForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = new FormData(reportForm);
+    var data = {};
+    f.forEach(function (value, key) { data[key] = value; });
+
+    var missing = requireCitizenFields(data);
+    if (missing.length) {
+      var names = missing.map(function (k) { return FIELD_LABELS[k]; });
+      toast('Please fill in: ' + names.join(', '), 'error');
+      return;
+    }
+
+    setBusy(reportSubmit, true, reportSubmitHTML);
+    sendComplaint({
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      category: data.category,
+      subCategory: data.subCategory,
+      description: data.description,
+      location: data.location,
+      latitude: data.latitude,
+      longitude: data.longitude,
+      landmark: data.landmark,
+      photoUrl: data.photoUrl,
+      severity: data.severity
+    }).then(function () {
+      toast('Report submitted. Thank you for helping keep your city clean.', 'success');
+      reportForm.reset();
+      closeReport();
+    }).catch(function () {
+      toast('Could not send your report. Check your connection and try again.', 'error');
+    }).finally(function () {
+      setBusy(reportSubmit, false, reportSubmitHTML);
+    });
+  });
+
+  /* ----------------------------------------------------------
+     Pickup Scheduler
+     Maps to the backend as a Medium-priority "Pickup Request".
+     ---------------------------------------------------------- */
+  var pickupForm = document.getElementById('pickup-form');
+  var pickupSubmit = pickupForm.querySelector('.submit');
+  var pickupSubmitHTML = pickupSubmit.innerHTML;
+
+  pickupForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = new FormData(pickupForm);
+    var data = {};
+    f.forEach(function (value, key) { data[key] = value; });
+
+    var waste = clean(data.wasteType);
+    var load = clean(data.estimatedWaste);
+    var notes = clean(data.description);
+    var prepared = {
+      name: data.name,
+      phone: data.phone,
+      category: 'Pickup Request',
+      subCategory: waste,
+      description: notes || ('Doorstep pickup for ' + waste + ', estimated load ' + load + '.'),
+      location: data.location,
+      severity: 'Medium',
+      wasteType: waste,
+      estimatedWaste: load,
+      pickupRequired: 'Yes',
+      preferredPickupDate: data.preferredPickupDate,
+      preferredPickupTime: data.preferredPickupTime
+    };
+
+    var missing = requireCitizenFields(prepared);
+    if (!clean(prepared.preferredPickupDate)) missing.push('preferredPickupDate');
+    if (missing.length) {
+      var labels = {
+        preferredPickupDate: 'Pickup date',
+        location: 'Ward / sector',
+        name: 'Full name',
+        phone: 'Phone number'
+      };
+      toast('Please fill in: ' + missing.map(function (k) { return labels[k] || k; }).join(', '), 'error');
+      return;
+    }
+
+    setBusy(pickupSubmit, true, pickupSubmitHTML);
+    sendComplaint(prepared).then(function () {
+      toast('Pickup requested. You will receive a confirmation shortly.', 'success');
+      pickupForm.reset();
+      document.getElementById('pf-time').selectedIndex = 2;
+    }).catch(function () {
+      toast('Could not send your pickup request. Please try again.', 'error');
+    }).finally(function () {
+      setBusy(pickupSubmit, false, pickupSubmitHTML);
+    });
+  });
+
+  /* ----------------------------------------------------------
+     Waste segregation guide
+     ---------------------------------------------------------- */
+  var BIN_KEYWORDS = [
+    { bin: 'special', label: 'Special-Care (Red / Amber)', words: ['battery', 'batteries', 'lithium', 'alkaline', 'bulb', 'cfl', 'mercury', 'medicine', 'syringe', 'phone', 'e-waste', 'ewaste', 'electronic', 'paint', 'tube'] },
+    { bin: 'recyclable', label: 'Recyclable (Teal)', words: ['bottle', 'can', 'cardboard', 'carton', 'paper', 'newspaper', 'magazine', 'glass', 'pet', 'aluminum', 'box', 'jar'] },
+    { bin: 'wet', label: 'Wet Waste (Green)', words: ['banana', 'peel', 'fruit', 'vegetable', 'food', 'rice', 'tea', 'coffee', 'leaf', 'leaves', 'garden', 'egg', 'shell', 'twig', 'scraps'] },
+    { bin: 'dry', label: 'Dry Waste (Blue)', words: ['plastic', 'wrapper', 'styrofoam', 'napkin', 'tissue', 'pen', 'packaging', 'chips', 'bag', 'foil'] }
+  ];
+
+  var binCards = document.querySelectorAll('#bins .bin');
+  var searchInput = document.getElementById('waste-search');
+  var searchMsg = document.getElementById('waste-msg');
+
+  function classifyWaste(text) {
+    var q = text.toLowerCase();
+    if (!q.trim()) return null;
+    for (var i = 0; i < BIN_KEYWORDS.length; i++) {
+      var group = BIN_KEYWORDS[i];
+      for (var j = 0; j < group.words.length; j++) {
+        if (q.indexOf(group.words[j]) !== -1) return group;
+      }
+    }
+    return false;
+  }
+
+  function runWasteSearch() {
+    var result = classifyWaste(searchInput.value);
+    binCards.forEach(function (card) {
+      card.classList.remove('match', 'dim');
+      if (result) {
+        if (card.dataset.bin === result.bin) card.classList.add('match');
+        else card.classList.add('dim');
+      }
+    });
+    if (result === null) {
+      searchMsg.textContent = '';
+    } else if (result === false) {
+      searchMsg.textContent = 'No match yet. Try a common item such as a banana peel, plastic bottle, or battery.';
+    } else {
+      searchMsg.innerHTML = 'This belongs in the <strong>' + result.label + '</strong> bin.';
+    }
+  }
+
+  searchInput.addEventListener('input', runWasteSearch);
+
+  document.querySelectorAll('[data-quick]').forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      searchInput.value = chip.dataset.quick;
+      runWasteSearch();
+    });
+  });
+
+  document.querySelectorAll('.bin-foot').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      toast('Detailed guidelines are not connected yet.', 'error');
+    });
+  });
+
+  /* ----------------------------------------------------------
+     Init
+     ---------------------------------------------------------- */
+  hydrateIcons(document);
+</script>
+</body>
+</html>
